@@ -1,18 +1,10 @@
-import express, { Express, Response } from 'express'
-import bodyParser from 'body-parser'
+import { ApolloServer } from 'apollo-server'
 
-export function server(): Express {
-  const app = express()
+import { typeDefs } from './graphql/typeDefs'
+import { resolvers } from './graphql/resolvers'
 
-  app.use(
-    bodyParser.urlencoded({
-      extended: true,
-    })
-  )
-
-  app.get('/', (_, res: Response) => {
-    res.send({ status: 'ok' })
-  })
+export function server(): ApolloServer {
+  const app = new ApolloServer({ typeDefs, resolvers })
 
   return app
 }
