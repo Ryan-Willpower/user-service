@@ -1,4 +1,4 @@
-import { UserInfo } from '../../interfaces/register'
+import { UserInfo } from '../../interfaces/auth'
 import RegisterService from '../../services/register'
 import { pool } from '../../loaders/pg'
 

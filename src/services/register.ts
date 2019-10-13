@@ -1,5 +1,8 @@
-import { Pool } from 'pg'
+import { Pool, QueryConfig } from 'pg'
 import bcrypt from 'bcrypt'
+
+import { ReturnStatus } from '../interfaces/auth'
+import message from './status'
 
 export default class RegisterService {
   username: String
@@ -12,24 +15,22 @@ export default class RegisterService {
     this.pool = pool
   }
 
-  async Register() {
+  async Register(): Promise<ReturnStatus> {
     try {
       const saltRounds = 10
       const hashPasswd = await bcrypt.hash(this.passwd, saltRounds)
 
-      const query = {
+      const query: QueryConfig = {
         text: 'INSERT INTO users(username, passwd) VALUES($1, $2)',
         values: [this.username, hashPasswd],
       }
 
       await this.pool.query(query)
 
-      return {
-        status: 'done',
-      }
-    } catch (e) {
-      console.log(e)
-      throw new Error("Can't add data to db")
+      return message('done')
+    } catch (error) {
+      console.error(error)
+      return message('error', "Can't register.")
     }
   }
 }

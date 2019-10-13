@@ -14,4 +14,5 @@ export default {
   dbName: process.env.PGDATABASE,
   dbURL: process.env.PGHOST,
   dbPort: parseInt(process.env.PGPORT, 10),
+  secret: process.env.SECRETKEY,
 }
