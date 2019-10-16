@@ -1,14 +1,14 @@
+import { PoolContext } from '../../interfaces/pg'
 import { UserInfo } from '../../interfaces/auth'
 import RegisterService from '../../services/register'
-import { pool } from '../../loaders/pg'
 
 export default {
   Mutation: {
-    register: async (_parent: any, args: UserInfo) => {
+    register: async (_parent: any, args: UserInfo, context: PoolContext) => {
       const registerService = new RegisterService(
         args.username,
         args.passwd,
-        pool
+        context.pool
       )
       const result = await registerService.Register()
       return result
